@@ -5,19 +5,26 @@ import org.junit.jupiter.api.Test;
 class AppStartPathLenTest {
 
 	@Test
-	void testMain() {
+	void testMain() throws Exception {
 
 		final String[] args;
-		final int input = Integer.parseInt("1");
+		final int input = Integer.parseInt("21");
 		if (input == 1) {
 			args = new String[] {
 					"C:\\IVI\\Prog\\JavaGradle\\Scripts\\General\\ReplaceFileInFolders\\" +
 							"Projects\\Personal\\ReplaceFileInFolders\\ReplaceFileInFolders\\" +
 							"src\\main\\java\\com\\personal\\scripts\\gen\\repl_file_in_folder\\" +
 							"AppStartReplaceFileInFolders.java" };
+		} else if (input == 2) {
+			args = new String[] { "C:\\IVI" };
 
 		} else if (input == 11) {
-			args = new String[] { "C:\\IVI" };
+			args = new String[] { "-dir", "C:\\IVI\\Vitesco\\Prog\\JavaGradle" };
+		} else if (input == 12) {
+			args = new String[] { "-dir", "D:\\IVI_MISC\\Misc\\mnf\\test" };
+
+		} else if (input == 21) {
+			args = new String[] { "-dir", "C:\\IVI\\Vitesco\\Prog\\JavaGradle", ".*\\.java" };
 
 		} else if (input == 101) {
 			args = new String[] { "-help" };

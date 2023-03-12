@@ -1,7 +1,13 @@
 package com.utils.scripts.gen.path_len;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 final class AppStartPathLen {
 
@@ -9,7 +15,7 @@ final class AppStartPathLen {
 	}
 
 	public static void main(
-			final String[] args) {
+			final String[] args) throws Exception {
 
 		if (args.length < 1) {
 
@@ -26,16 +32,70 @@ final class AppStartPathLen {
 			System.exit(0);
 		}
 
-		Path filePath = Paths.get(args[0]);
-		filePath = filePath.toAbsolutePath().normalize();
-		System.out.println("file path:" + System.lineSeparator() + filePath);
+		if ("-dir".equals(args[0])) {
 
-		final int pathLength = filePath.toString().length();
-		System.out.println("path length: " + pathLength);
+			if (args.length < 2) {
+
+				System.err.println("missing second argument");
+				System.exit(1);
+			}
+
+			final Path folderPath = Paths.get(args[1]).toAbsolutePath().normalize();
+			if (!Files.isDirectory(folderPath)) {
+				System.err.println("directory does not exist:" +
+						System.lineSeparator() + folderPath);
+
+			} else {
+				final Pattern filePathFilterPattern;
+				if (args.length >= 3) {
+					final String filePathFilterPatternString = args[2];
+					if (filePathFilterPatternString != null && !filePathFilterPatternString.isBlank()) {
+						filePathFilterPattern = Pattern.compile(filePathFilterPatternString);
+					} else {
+						filePathFilterPattern = null;
+					}
+				} else {
+					filePathFilterPattern = null;
+				}
+
+				final List<Path> pathList;
+				try (Stream<Path> filePathStream = Files.walk(folderPath)) {
+
+					pathList = filePathStream.filter(path -> filePathFilterPattern == null ||
+							filePathFilterPattern.matcher(path.toString()).matches())
+							.collect(Collectors.toList());
+				}
+
+				pathList.sort(Comparator.comparing(
+						path -> path.toString().length(), Comparator.reverseOrder()));
+
+				final int pathToListCount = Math.min(10, pathList.size());
+				for (int i = 0; i < pathToListCount; i++) {
+
+					final Path path = pathList.get(i);
+					System.out.print("file path: ");
+					System.out.print(path);
+					System.out.print(", length: ");
+					final int pathLength = path.toString().length();
+					System.out.print(pathLength);
+					System.out.println();
+				}
+			}
+
+		} else {
+			final Path path = Paths.get(args[0]).toAbsolutePath().normalize();
+			System.out.print("file path: ");
+			System.out.print(path);
+			System.out.print(", length: ");
+			final int pathLength = path.toString().length();
+			System.out.print(pathLength);
+			System.out.println();
+		}
 	}
 
 	private static String createHelpMessage() {
 
-		return "usage: java replace_file_in_folders <file-path>";
+		return "usage: path_len <file-path>" + System.lineSeparator() +
+				"path_len -dir <folder-path> (<file_path_filter_pattern>)";
 	}
 }
