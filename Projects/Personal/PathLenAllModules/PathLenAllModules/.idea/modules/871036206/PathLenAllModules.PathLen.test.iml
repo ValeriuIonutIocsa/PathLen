@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
-  <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/../../../../../PathLen/PathLen/src/test">
-      <sourceFolder url="file://$MODULE_DIR$/../../../../../PathLen/PathLen/src/test/java" isTestSource="true" />
-    </content>
+  <component name="CheckStyle-IDEA-Module" serialisationVersion="2">
+    <option name="activeLocationsIds" />
   </component>
 </module>

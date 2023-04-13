@@ -3,6 +3,7 @@ package com.utils.scripts.gen.path_len;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -48,12 +49,14 @@ final class AppStartPathLen {
 			} else {
 				final Pattern filePathFilterPattern;
 				if (args.length >= 3) {
+
 					final String filePathFilterPatternString = args[2];
 					if (filePathFilterPatternString != null && !filePathFilterPatternString.isBlank()) {
 						filePathFilterPattern = Pattern.compile(filePathFilterPatternString);
 					} else {
 						filePathFilterPattern = null;
 					}
+
 				} else {
 					filePathFilterPattern = null;
 				}
@@ -66,30 +69,32 @@ final class AppStartPathLen {
 							.collect(Collectors.toList());
 				}
 
-				pathList.sort(Comparator.comparing(
-						path -> path.toString().length(), Comparator.reverseOrder()));
+				final List<FileWithPathLen> fileWithPathLenList = new ArrayList<>();
+				for (Path path : pathList) {
 
-				final int pathToListCount = Math.min(10, pathList.size());
-				for (int i = 0; i < pathToListCount; i++) {
-
-					final Path path = pathList.get(i);
-					System.out.print("file path: ");
-					System.out.print(path);
-					System.out.print(", length: ");
 					final int pathLength = path.toString().length();
-					System.out.print(pathLength);
-					System.out.println();
+					final FileWithPathLen fileWithPathLen = new FileWithPathLen(path, pathLength);
+					fileWithPathLenList.add(fileWithPathLen);
+				}
+
+				fileWithPathLenList.sort(Comparator.comparing(
+						FileWithPathLen::getPathLength, Comparator.reverseOrder()));
+
+				final int fileWithPathLenListCount = Math.min(10, fileWithPathLenList.size());
+				for (int i = 0; i < fileWithPathLenListCount; i++) {
+
+					final FileWithPathLen fileWithPathLen = fileWithPathLenList.get(i);
+					fileWithPathLen.printToConsole();
 				}
 			}
 
 		} else {
 			final Path path = Paths.get(args[0]).toAbsolutePath().normalize();
-			System.out.print("file path: ");
-			System.out.print(path);
-			System.out.print(", length: ");
+
 			final int pathLength = path.toString().length();
-			System.out.print(pathLength);
-			System.out.println();
+			final FileWithPathLen fileWithPathLen = new FileWithPathLen(path, pathLength);
+
+			fileWithPathLen.printToConsole();
 		}
 	}
 
