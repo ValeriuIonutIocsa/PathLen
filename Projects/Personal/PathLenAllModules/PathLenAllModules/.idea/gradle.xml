@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$/../../PathLen/PathLen" />
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/../../../../Utils/Services/test-utils/test-utils" />
           </set>
         </option>
       </GradleProjectSettings>

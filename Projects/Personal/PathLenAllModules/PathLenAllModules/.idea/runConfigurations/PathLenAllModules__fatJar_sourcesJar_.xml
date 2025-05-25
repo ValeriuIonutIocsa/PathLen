@@ -2,7 +2,7 @@
     <configuration default="false" factoryName="Gradle" folderName="PathLenAllModules" name="PathLenAllModules [fatJar sourcesJar]" type="GradleRunConfiguration">
         <ExternalSystemSettings>
             <option name="executionName"/>
-            <option name="externalProjectPath" value="$PROJECT_DIR$/../../PathLenAllModules/PathLenAllModules"/>
+            <option name="externalProjectPath" value="$PROJECT_DIR$/../../../../Projects/Personal/PathLenAllModules/PathLenAllModules"/>
             <option name="externalSystemIdString" value="GRADLE"/>
             <option name="scriptParameters" value=""/>
             <option name="taskDescriptions">

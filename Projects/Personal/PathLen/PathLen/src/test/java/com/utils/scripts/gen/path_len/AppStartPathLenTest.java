@@ -2,13 +2,15 @@ package com.utils.scripts.gen.path_len;
 
 import org.junit.jupiter.api.Test;
 
+import com.utils.test.TestInputUtils;
+
 class AppStartPathLenTest {
 
 	@Test
 	void testMain() throws Exception {
 
 		final String[] args;
-		final int input = Integer.parseInt("21");
+		final int input = TestInputUtils.parseTestInputNumber("21");
 		if (input == 1) {
 			args = new String[] {
 					"C:\\IVI\\Prog\\JavaGradle\\Scripts\\General\\ReplaceFileInFolders\\" +
